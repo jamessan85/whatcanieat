@@ -1,0 +1,24 @@
+extends layout
+
+block content
+    table.table
+      tr
+        th Name
+        th Fat
+        th Carbs
+        th Protein
+        th Calories
+      each i in result
+        tr
+          td= i.Name
+          td= i.Fat
+          td= i.Carbs
+          td= i.Protein
+          td= i.Calories
+  
+    
+    
+
+
+
+
