@@ -4,7 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport') ;
-var session = require('express-session')
+var connect = require('connect');
+var session = require('express-session');
 var LocalStrategy = require('passport-local').Strategy;
 
 var indexRouter = require('./routes/index');
@@ -19,7 +20,7 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.session({ secret: 'keyboard cat' }));
+app.use(session({ secret: 'keyboard cat' }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
