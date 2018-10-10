@@ -1,22 +1,47 @@
 extends layout
 
 block content
-    table.table
-      tr
-        th Name
-        th Fat
-        th Carbs
-        th Protein
-        th Calories
-      each i in result
+    div(id="food")
+      h3 Your menu: {{ this.selected.length }}
+      label(for="carbs") Carbs
+        input(v-model="carbs")
+      label(for="calories") Calories
+        input(v-model="calories")
+      label(for="protein") Protein
+        input(v-model="protein")
+      label(for="fat") Fat
+        input(v-model="fat")
+      button(v-on:click="chooseMe()") Click
+      table.table(v-show="show")
         tr
-          td= i.Name
-          td= i.Fat
-          td= i.Carbs
-          td= i.Protein
-          td= i.Calories
-  
-    
+          th Name
+          th Carbs
+          th Fat
+          th Protein
+          th Calories
+        tr(v-for="x in data")
+          td {{ x.Name }}
+          td {{ x.Carbs }}
+          td {{ x.Fat }}
+          td {{ x.Protein }}
+          td {{ x.Calories}}
+          td
+            button(v-on:click="calculate(x.Carbs, x.Fat, x.Protein, x.Calories, x.Name)") Select me
+      table.table(v-show="showselected")
+        tr
+          th Name
+          th Carbs
+          th Fat
+          th Protein
+          th Calories
+        tr(v-for="(x, index) in selected")
+          td {{ x.name }}
+          td {{ x.carbs }}
+          td {{ x.fat }}
+          td {{ x.protein }}
+          td {{ x.calories}}
+          td
+            button(v-on:click="remove(index)") Remove
     
 
 

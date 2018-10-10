@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    table.table
+      tr
+        th Name
+        th Distance
+        th Elevation Gain
+      each i in result
+        tr
+          td
+            a(href=`/strava/activity/${i.id}`)= i.name
+          td= i.distance
+          td= i.total_elevation_gain
