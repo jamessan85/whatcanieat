@@ -4,6 +4,7 @@ var mysql = require('mysql');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var request = require('request');
+var fs =  require('fs');
 
 var connection = mysql.createPool({
   host     : 'localhost',
@@ -34,12 +35,16 @@ router.get('/', function(req, res, next) {
 
 /* GET home page. */
 router.get('/info', function(req, res, next) {
-  getDbData()
-    .then(result => {
-      res.send(result);
-    }).catch(e => {
-      next(e)
-    })
+  fs.readFile('food.json', function (err, data) {
+    if (err) throw err
+    res.send(JSON.parse(data))
+  })
+  // getDbData()
+  //   .then(result => {
+  //     res.send(result);
+  //   }).catch(e => {
+  //     next(e)
+  //   })
 });
 
 router.get('/food/:foodid([a-zA-Z0-9])', function(req, res, next) {

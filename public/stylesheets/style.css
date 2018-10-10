@@ -3,6 +3,18 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+a, u {
+    text-decoration: none!important;
+}
+
+i {
+  cursor: pointer
+}
+
+i.fa-plus {
+  color: green
+}
+
+i.fa-minus {
+  color: red
 }

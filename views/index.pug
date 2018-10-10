@@ -1,24 +1,31 @@
 extends layout
 
 block content
-    div(id="food")
-      h3 Your menu: {{ this.selected.length }}
-      label(for="carbs") Carbs
-        input(v-model="carbs")
-      label(for="calories") Calories
-        input(v-model="calories")
-      label(for="protein") Protein
-        input(v-model="protein")
-      label(for="fat") Fat
-        input(v-model="fat")
-      button(v-on:click="chooseMe()") Click
-      table.table(v-show="show")
+    div.col-md-6(id="food")
+      h3
+       a(href="#", data-toggle='modal', data-target='#exampleModal') Your menu: {{ this.selected.length }}
+      div
+        div.form-group
+          label(for="carbs") Carbs
+          input(name="carbs" v-model="carbs" class="form-control")
+        div.form-group
+          label(for="calories") Calories
+          input(name="calories" v-model="calories" class="form-control")
+        div.form-group  
+          label(for="protein") Protein
+          input(name="protein" v-model="protein" class="form-control")
+        div.form-group  
+          label(for="fat") Fat
+          input(name="fat" v-model="fat" class="form-control")
+        button.button(v-on:click="chooseMe()") Click
+      table.table.table-hover(v-show="show")
         tr
           th Name
           th Carbs
           th Fat
           th Protein
           th Calories
+          th Add
         tr(v-for="x in data")
           td {{ x.Name }}
           td {{ x.Carbs }}
@@ -26,22 +33,35 @@ block content
           td {{ x.Protein }}
           td {{ x.Calories}}
           td
-            button(v-on:click="calculate(x.Carbs, x.Fat, x.Protein, x.Calories, x.Name)") Select me
-      table.table(v-show="showselected")
-        tr
-          th Name
-          th Carbs
-          th Fat
-          th Protein
-          th Calories
-        tr(v-for="(x, index) in selected")
-          td {{ x.name }}
-          td {{ x.carbs }}
-          td {{ x.fat }}
-          td {{ x.protein }}
-          td {{ x.calories}}
-          td
-            button(v-on:click="remove(index)") Remove
+            i(class="fas fa-plus" v-on:click="calculate(x.Carbs, x.Fat, x.Protein, x.Calories, x.Name)")
+      .modal(tabindex='-1', role='dialog', id="exampleModal")
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              h5.modal-title Your Selections
+              button.close(type='button', data-dismiss='modal', aria-label='Close')
+                span(aria-hidden='true') ×
+            .modal-body
+              table.table.table-hover(v-show="showselected")
+                tr
+                  th Name
+                  th Carbs
+                  th Fat
+                  th Protein
+                  th Calories
+                  th Remove
+                tr(v-for="(x, index) in selected")
+                  td {{ x.name }}
+                  td {{ x.carbs }}
+                  td {{ x.fat }}
+                  td {{ x.protein }}
+                  td {{ x.calories}}
+                  td
+                    i(class="fas fa-minus" v-on:click="remove(index)")
+            .modal-footer
+              button.btn.btn-primary(type='button') Save changes
+              button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+
     
 
 

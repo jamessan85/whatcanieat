@@ -9,7 +9,8 @@ new Vue({
     data: [],
     show: false,
     selected: [],
-    showselected: false
+    showselected: false,
+    inputs: true
   },
   mounted() {
     axios.get('/info')
@@ -21,15 +22,9 @@ new Vue({
     chooseMe: function() {
       this.data = []
       for (var i = 0; i < this.food.length; i++) {
-        if (
-          this.carbs > this.food[i].Carbs && 
-          this.fat > this.food[i].Fat &&
-          this.protein > this.food[i].Protein &&
-          this.calories > this.food[i].Calories
-        ) {
-          this.data.push(this.food[i])
-          this.show = true
-        }
+        this.data.push(this.food[i])
+        this.show = true
+        this.inputs = false
       }
     },
     calculate: function(carbs, fat, protein, calories, name) {
@@ -37,8 +32,15 @@ new Vue({
       this.fat -= fat
       this.protein -= protein
       this.calories -= calories
-      this.chooseMe()
-      this.addToArray(carbs, fat, protein, calories, name)
+      if (this.carbs < 0 || this.fat < 0 || this.protein < 0 || this.calories < 0) {
+        alert("No more for you, fat boy")
+        this.carbs += carbs
+        this.fat += fat
+        this.protein += protein
+        this.calories += calories
+      } else {
+        this.addToArray(carbs, fat, protein, calories, name)
+      }
     },
     addToArray: function(carbs, fat, protein, calories, name) {
       this.selected.push({"carbs": carbs, "fat": fat, "protein": protein, "calories": calories, "name": name})
@@ -46,10 +48,9 @@ new Vue({
     },
     remove: function(index) {
       var selectedForDeletion = this.selected.slice(index)
-      console.log(index)
       this.selected.splice(index, 1)
       if(this.selected.length <= 0) {
-        this.showselected = true
+        this.showselected = false
       }
       this.carbs += selectedForDeletion[0].carbs
       this.protein += selectedForDeletion[0].protein
