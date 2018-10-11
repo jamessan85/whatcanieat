@@ -10,7 +10,8 @@ new Vue({
     show: false,
     selected: [],
     showselected: false,
-    inputs: true
+    inputs: true,
+    active_el: -1
   },
   mounted() {
     axios.get('/info')
@@ -27,36 +28,43 @@ new Vue({
         this.inputs = false
       }
     },
-    calculate: function(carbs, fat, protein, calories, name) {
-      this.carbs -= carbs
-      this.fat -= fat
-      this.protein -= protein
-      this.calories -= calories
+    calculate: function(index, event) {
+      this.active_el = index
+      var selectedForMenu = this.data[index]
+      this.carbs -= selectedForMenu.Carbs
+      this.fat -= selectedForMenu.Fat
+      this.protein -= selectedForMenu.Protein
+      this.calories -= selectedForMenu.Calories
       if (this.carbs < 0 || this.fat < 0 || this.protein < 0 || this.calories < 0) {
         alert("No more for you, fat boy")
-        this.carbs += carbs
-        this.fat += fat
-        this.protein += protein
-        this.calories += calories
+        this.carbs += selectedForMenu.Carbs
+        this.fat += selectedForMenu.Fat
+        this.protein += selectedForMenu.Protein
+        this.calories += selectedForMenu.Calories
       } else {
-        this.addToArray(carbs, fat, protein, calories, name)
+        this.addToArray(selectedForMenu)
       }
     },
-    addToArray: function(carbs, fat, protein, calories, name) {
-      this.selected.push({"carbs": carbs, "fat": fat, "protein": protein, "calories": calories, "name": name})
+    addToArray: function(selectedForMenu) {
+      this.selected.push({
+        "carbs": selectedForMenu.Carbs, 
+        "fat": selectedForMenu.Fat, 
+        "protein": selectedForMenu.Protein, 
+        "calories": selectedForMenu.Calories, 
+        "name": selectedForMenu.Name
+      })
       this.showselected = true
     },
     remove: function(index) {
-      var selectedForDeletion = this.selected.slice(index)
+      var selectedForDeletion = this.selected[index]
       this.selected.splice(index, 1)
       if(this.selected.length <= 0) {
         this.showselected = false
       }
-      this.carbs += selectedForDeletion[0].carbs
-      this.protein += selectedForDeletion[0].protein
-      this.calories += selectedForDeletion[0].calories
-      this.fat += selectedForDeletion[0].fat
-      this.chooseMe()
+      this.carbs += selectedForDeletion.carbs
+      this.protein += selectedForDeletion.protein
+      this.calories += selectedForDeletion.calories
+      this.fat += selectedForDeletion.fat
     }
   }
 })

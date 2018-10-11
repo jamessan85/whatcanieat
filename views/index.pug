@@ -1,39 +1,44 @@
 extends layout
 
 block content
-    div.col-md-6(id="food")
-      h3
-       a(href="#", data-toggle='modal', data-target='#exampleModal') Your menu: {{ this.selected.length }}
-      div
-        div.form-group
-          label(for="carbs") Carbs
-          input(name="carbs" v-model="carbs" class="form-control")
-        div.form-group
-          label(for="calories") Calories
-          input(name="calories" v-model="calories" class="form-control")
-        div.form-group  
-          label(for="protein") Protein
-          input(name="protein" v-model="protein" class="form-control")
-        div.form-group  
-          label(for="fat") Fat
-          input(name="fat" v-model="fat" class="form-control")
-        button.button(v-on:click="chooseMe()") Click
-      table.table.table-hover(v-show="show")
-        tr
-          th Name
-          th Carbs
-          th Fat
-          th Protein
-          th Calories
-          th Add
-        tr(v-for="x in data")
-          td {{ x.Name }}
-          td {{ x.Carbs }}
-          td {{ x.Fat }}
-          td {{ x.Protein }}
-          td {{ x.Calories}}
-          td
-            i(class="fas fa-plus" v-on:click="calculate(x.Carbs, x.Fat, x.Protein, x.Calories, x.Name)")
+    div(id="food")
+      .container
+        .row
+          .col-md-6
+            h3
+            a(href="#", data-toggle='modal', data-target='#exampleModal') Your menu: {{ this.selected.length }}
+            div
+              div.form-group
+                label(for="carbs") Carbs
+                input(name="carbs" v-model="carbs" class="form-control")
+              div.form-group
+                label(for="calories") Calories
+                input(name="calories" v-model="calories" class="form-control")
+              div.form-group  
+                label(for="protein") Protein
+                input(name="protein" v-model="protein" class="form-control")
+              div.form-group  
+                label(for="fat") Fat
+                input(name="fat" v-model="fat" class="form-control")
+              button.button(v-on:click="chooseMe()") Click
+          .col-md-6    
+            table.table.table-hover.table-striped(v-show="show")
+              caption Menu
+              tr
+                th Name
+                th Carbs
+                th Fat
+                th Protein
+                th Calories
+                th Add
+              tr(v-for="(x, index) in data")
+                td {{ x.Name }}
+                td {{ x.Carbs }}
+                td {{ x.Fat }}
+                td {{ x.Protein }}
+                td {{ x.Calories}}
+                td
+                  i(id="icon" v-on:click="calculate(index)", v-bind:class="{ 'fas fa-minus' : active_el == index, 'fas fa-plus' : active_el != index  }")
       .modal(tabindex='-1', role='dialog', id="exampleModal")
         .modal-dialog(role='document')
           .modal-content
