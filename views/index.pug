@@ -38,7 +38,7 @@ block content
                 td {{ x.Protein }}
                 td {{ x.Calories}}
                 td
-                  i(id="icon" v-on:click="calculate(index, $event)", v-bind:class="{ 'fas fa-minus' : active_el == index, 'fas fa-plus' : active_el != index  }")
+                  i(id="icon" v-on:click="calculate(index, $event)", class="fas fa-plus")
       .modal(tabindex='-1', role='dialog', id="exampleModal")
         .modal-dialog(role='document')
           .modal-content
@@ -54,18 +54,15 @@ block content
                   th Fat
                   th Protein
                   th Calories
-                  th Remove
                 tr(v-for="(x, index) in selected")
                   td {{ x.name }}
                   td {{ x.carbs }}
                   td {{ x.fat }}
                   td {{ x.protein }}
                   td {{ x.calories}}
-                  td
-                    i(class="fas fa-minus" v-on:click="remove(index)")
             .modal-footer
               button.btn.btn-primary(type='button') Save changes
-              button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+              button.btn.btn-secondary(type='button', data-dismiss='modal', v-on:click="clearAll()") Clear
 
     
 

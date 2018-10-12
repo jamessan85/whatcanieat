@@ -11,7 +11,7 @@ new Vue({
     selected: [],
     showselected: false,
     inputs: true,
-    active_el: -1
+    active_el: 0
   },
   mounted() {
     axios.get('/info')
@@ -29,26 +29,34 @@ new Vue({
       }
     },
     calculate: function(index, event) {
-      var cell = event.path[1].cellIndex
-      var row = event.path[2].rowIndex
-      var td = event.path[3].childNodes[3].childNodes[5].childNodes[0].className
-      
-      console.log(event.path)
-      console.log(td)
-      this.active_el = index
-      var selectedForMenu = this.data[index]
-      this.carbs -= selectedForMenu.Carbs
-      this.fat -= selectedForMenu.Fat
-      this.protein -= selectedForMenu.Protein
-      this.calories -= selectedForMenu.Calories
-      if (this.carbs < 0 || this.fat < 0 || this.protein < 0 || this.calories < 0) {
-        alert("No more for you, fat boy")
-        this.carbs += selectedForMenu.Carbs
-        this.fat += selectedForMenu.Fat
-        this.protein += selectedForMenu.Protein
-        this.calories += selectedForMenu.Calories
-      } else {
-        this.addToArray(selectedForMenu)
+      // set the vars of the clicked icon
+      var getClass = event.path[0].className
+      var getCell = event.path[1].cellIndex
+      var getRow = event.path[2].rowIndex
+      // get the targetd icons
+      var rowpath = document.getElementsByTagName("tr")[getRow];
+      var celltag = rowpath.getElementsByTagName("td")[getCell]
+      var cellClass = celltag.getElementsByClassName(getClass)[0].classList.value
+
+      if (cellClass === "fas fa-plus") {
+        var selectedForMenu = this.data[index]
+        this.carbs -= selectedForMenu.Carbs
+        this.fat -= selectedForMenu.Fat
+        this.protein -= selectedForMenu.Protein
+        this.calories -= selectedForMenu.Calories
+        if (this.carbs < 0 || this.fat < 0 || this.protein < 0 || this.calories < 0) {
+          alert("No more for you, fat boy")
+          this.carbs += selectedForMenu.Carbs
+          this.fat += selectedForMenu.Fat
+          this.protein += selectedForMenu.Protein
+          this.calories += selectedForMenu.Calories
+        } else {
+          celltag.getElementsByClassName(getClass)[0].classList.value = "fas fa-minus"
+          this.addToArray(selectedForMenu)
+        }
+      } else if (cellClass === "fas fa-minus") {
+        celltag.getElementsByClassName(getClass)[0].classList.value = "fas fa-plus"
+        this.removeFromArray(index)
       }
     },
     addToArray: function(selectedForMenu) {
@@ -61,9 +69,11 @@ new Vue({
       })
       this.showselected = true
     },
-    remove: function(index) {
-      var selectedForDeletion = this.selected[index]
-      this.selected.splice(index, 1)
+    removeFromArray: function(index) {
+      var name = this.data[index].Name
+      var x = this.selected.findIndex(a => a.name === name)
+      var selectedForDeletion = this.selected[x]
+      this.selected.splice(x, 1)
       if(this.selected.length <= 0) {
         this.showselected = false
       }
@@ -71,6 +81,15 @@ new Vue({
       this.protein += selectedForDeletion.protein
       this.calories += selectedForDeletion.calories
       this.fat += selectedForDeletion.fat
+    },
+    clearAll: function() {
+      for (i = 0; i < this.selected.length; i++) {
+        this.carbs += this.selected[i].carbs
+        this.protein += this.selected[i].protein
+        this.calories += this.selected[i].calories
+        this.fat += this.selected[i].fat
+      }
+      this.selected = []
     }
   }
 })
