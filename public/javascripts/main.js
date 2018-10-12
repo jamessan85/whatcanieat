@@ -29,6 +29,12 @@ new Vue({
       }
     },
     calculate: function(index, event) {
+      var cell = event.path[1].cellIndex
+      var row = event.path[2].rowIndex
+      var td = event.path[3].childNodes[3].childNodes[5].childNodes[0].className
+      
+      console.log(event.path)
+      console.log(td)
       this.active_el = index
       var selectedForMenu = this.data[index]
       this.carbs -= selectedForMenu.Carbs

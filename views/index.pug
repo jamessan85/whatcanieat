@@ -38,7 +38,7 @@ block content
                 td {{ x.Protein }}
                 td {{ x.Calories}}
                 td
-                  i(id="icon" v-on:click="calculate(index)", v-bind:class="{ 'fas fa-minus' : active_el == index, 'fas fa-plus' : active_el != index  }")
+                  i(id="icon" v-on:click="calculate(index, $event)", v-bind:class="{ 'fas fa-minus' : active_el == index, 'fas fa-plus' : active_el != index  }")
       .modal(tabindex='-1', role='dialog', id="exampleModal")
         .modal-dialog(role='document')
           .modal-content
