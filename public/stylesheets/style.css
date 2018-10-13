@@ -7,14 +7,14 @@ a, u {
     text-decoration: none!important;
 }
 
-i {
+td.fas {
   cursor: pointer
 }
 
-i.fa-plus {
+.fa-plus {
   color: green
 }
 
-i.fa-minus {
+.fa-minus {
   color: red
 }

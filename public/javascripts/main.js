@@ -1,10 +1,10 @@
 new Vue({
   el: '#food',
   data: {
-    carbs: '',
-    protein: '',
-    fat: '',
-    calories: '',
+    carbs: 1000,
+    protein: 1000,
+    fat: 1000,
+    calories: 1000,
     food: [],
     data: [],
     show: false,
@@ -31,14 +31,12 @@ new Vue({
     calculate: function(index, event) {
       // set the vars of the clicked icon
       var getClass = event.path[0].className
-      var getCell = event.path[1].cellIndex
-      var getRow = event.path[2].rowIndex
+      var getCell = event.path[0].cellIndex
+      var getRow = event.path[1].rowIndex
       // get the targetd icons
       var rowpath = document.getElementsByTagName("tr")[getRow];
-      var celltag = rowpath.getElementsByTagName("td")[getCell]
-      var cellClass = celltag.getElementsByClassName(getClass)[0].classList.value
-
-      if (cellClass === "fas fa-plus") {
+      var celltag = rowpath.getElementsByTagName("td")[getCell].className
+      if (celltag === "fas fa-plus") {
         var selectedForMenu = this.data[index]
         this.carbs -= selectedForMenu.Carbs
         this.fat -= selectedForMenu.Fat
@@ -51,11 +49,11 @@ new Vue({
           this.protein += selectedForMenu.Protein
           this.calories += selectedForMenu.Calories
         } else {
-          celltag.getElementsByClassName(getClass)[0].classList.value = "fas fa-minus"
+          rowpath.getElementsByTagName("td")[getCell].className = "fas fa-minus"
           this.addToArray(selectedForMenu)
         }
-      } else if (cellClass === "fas fa-minus") {
-        celltag.getElementsByClassName(getClass)[0].classList.value = "fas fa-plus"
+      } else if (celltag === "fas fa-minus") {
+        rowpath.getElementsByTagName("td")[getCell].className = "fas fa-plus"
         this.removeFromArray(index)
       }
     },
@@ -83,6 +81,12 @@ new Vue({
       this.fat += selectedForDeletion.fat
     },
     clearAll: function() {
+      minusTag = document.getElementsByTagName('td')
+      for (i = 0; i < minusTag.length; i++) {
+        if (minusTag[i].className === "fas fa-minus") {
+          minusTag[i].className ="fas fa-plus"
+        }
+      }
       for (i = 0; i < this.selected.length; i++) {
         this.carbs += this.selected[i].carbs
         this.protein += this.selected[i].protein
