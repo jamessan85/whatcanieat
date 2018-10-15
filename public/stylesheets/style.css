@@ -1,10 +1,28 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Libre Franklin", Helvetica, Arial, sans-serif;
 }
 
 a, u {
     text-decoration: none!important;
+}
+
+input {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  height: 40px;
+  margin-left: 10px;
+  font-size: 1.5rem;
+}
+
+.mynavbar {
+  height: 60px;
+  width: 100%;
+  color: white;
+  background-color: black;
+  text-align: center;
+  margin-bottom: 10px;
+  padding: 10px 0px;
 }
 
 td.fas {
@@ -17,4 +35,22 @@ td.fas {
 
 .fa-minus {
   color: red
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 500px;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+label {
+  font-size: 1.5rem;
 }

@@ -3,27 +3,32 @@ extends layout
 block content
     div(id="food")
       .container
-        .row
-          .col-md-6
-            h3
-            a(href="#", data-toggle='modal', data-target='#exampleModal') Your menu: {{ this.selected.length }}
+        .flex(v-show="!show")
+          .box
             div
               div.form-group
-                label(for="carbs") Carbs
-                input(name="carbs" v-model="carbs" class="form-control")
+                label(for="carbs") Carbs:
+                input(name="carbs" v-model="carbs")
               div.form-group
-                label(for="calories") Calories
-                input(name="calories" v-model="calories" class="form-control")
+                label(for="calories") Calories:
+                input(name="calories" v-model="calories")
               div.form-group  
-                label(for="protein") Protein
-                input(name="protein" v-model="protein" class="form-control")
+                label(for="protein") Protein:
+                input(name="protein" v-model="protein")
               div.form-group  
-                label(for="fat") Fat
-                input(name="fat" v-model="fat" class="form-control")
+                label(for="fat") Fat:
+                input(name="fat" v-model="fat")
               button.button(v-on:click="chooseMe()") Click
-          .col-md-6    
-            table.table.table-hover.table-striped(v-show="show")
-              caption Menu
+        .flex(v-show="show")
+          .box
+            h2
+              strong
+                a(href="#", data-toggle='modal', data-target='#exampleModal') Your menu: {{ this.selected.length }} 
+            p Carbs Remaining: {{ carbs.toFixed(0) }}, Calories Remaining: {{ calories.toFixed(0) }}, Protein Remaining: {{ protein.toFixed(0) }}, Fat Remaining: {{ fat.toFixed(0) }}
+            br
+            button.button(v-on:click="reset()") Reset
+            table.table.table-hover.table-striped
+              h2 Menu
               tr
                 th Name
                 th Carbs

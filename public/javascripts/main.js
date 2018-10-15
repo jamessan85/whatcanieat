@@ -94,6 +94,15 @@ new Vue({
         this.fat += this.selected[i].fat
       }
       this.selected = []
+    },
+    reset: function() {
+      if (this.show === true) {
+        this.show = false
+        this.carbs = 0
+        this.calories = 0
+        this.protein = 0
+        this.fat = 0
+      }
     }
   }
 })
